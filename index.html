@@ -83,12 +83,11 @@
         .mybtn1 {
           zoom: 0.8;
         }
-        .dmnbtns{
+        .dmnbtns {
           flex-wrap: wrap;
           justify-content: center;
-          
         }
-        .dmnbtns button:nth-child(3){
+        .dmnbtns button:nth-child(3) {
           margin-top: 20px;
         }
       }
@@ -121,7 +120,7 @@
           <button
             data-collapse-toggle="navbar-sticky"
             type="button"
-            class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-white rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 :text-gray-400 :hover:bg-gray-700 :focus:ring-gray-600"
+            class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-white rounded-lg md:hidden  focus:outline-none focus:ring-2 focus:ring-gray-200 :text-gray-400 :hover:bg-gray-700 :focus:ring-gray-600"
             aria-controls="navbar-sticky"
             aria-expanded="false"
           >
@@ -735,7 +734,7 @@
         <div class="mt-10">
           <button
             type="submit"
-            class="bg-[#49a3af] text-white rounded-full  py-2 w-full block"
+            class="bg-[#49a3af] text-white rounded-full py-2 w-full block"
           >
             Submit →
           </button>
@@ -925,135 +924,138 @@
       </div>
     </div>
 
-
-
     <script>
       const canvas = document.getElementById("signature-pad");
-        const ctx = canvas.getContext("2d");
-        let drawing = false;
-        let penColor = "#000000"; // Default pen color (black)
-      
-        // Store the last point to smooth lines
-        let lastPoint = { x: 0, y: 0 };
-        
-        // Utility function to get coordinates from mouse or touch events
-        function getEventCoordinates(event) {
-          if (event.touches && event.touches.length > 0) {
-            return { x: event.touches[0].clientX - canvas.offsetLeft, y: event.touches[0].clientY - canvas.offsetTop };
-          } else {
-            return { x: event.offsetX, y: event.offsetY };
-          }
+      const ctx = canvas.getContext("2d");
+      let drawing = false;
+      let penColor = "#000000"; // Default pen color (black)
+
+      // Store the last point to smooth lines
+      let lastPoint = { x: 0, y: 0 };
+
+      // Utility function to get coordinates from mouse or touch events
+      function getEventCoordinates(event) {
+        if (event.touches && event.touches.length > 0) {
+          return {
+            x: event.touches[0].clientX - canvas.offsetLeft,
+            y: event.touches[0].clientY - canvas.offsetTop,
+          };
+        } else {
+          return { x: event.offsetX, y: event.offsetY };
         }
-      
-        // Responsive canvas setup
-        function resizeCanvas() {
-          const canvasContainerWidth = canvas.parentElement.clientWidth;
-          canvas.width = canvasContainerWidth;
-          canvas.height = canvasContainerWidth * (400 / 850); // Maintain aspect ratio of 850x400
-          ctx.lineWidth = 2; // Set the stroke width
-          ctx.lineJoin = 'round'; // Ensure smooth strokes
-          ctx.lineCap = 'round';
-        }
-      
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas(); // Call once to set initial size
-      
-        // Start drawing on mousedown or touchstart
-        function startDrawing(event) {
-          drawing = true;
-          const { x, y } = getEventCoordinates(event);
-          lastPoint = { x, y }; // Store the starting point
-          ctx.strokeStyle = penColor; // Set the pen color
-          ctx.beginPath();
-          ctx.moveTo(x, y);
-          event.preventDefault(); // Prevent scrolling when drawing
-        }
-      
-        // Draw using Bezier curve to create smooth lines
-        function draw(event) {
-          if (!drawing) return;
-          
-          const { x, y } = getEventCoordinates(event);
-          ctx.beginPath();
-          ctx.moveTo(lastPoint.x, lastPoint.y);
-          
-          // Quadratic curve for smooth drawing
-          ctx.quadraticCurveTo(
-            (lastPoint.x + x) / 2, 
-            (lastPoint.y + y) / 2, 
-            x, 
-            y
-          );
-          ctx.stroke();
-          
-          // Update last point to current
-          lastPoint = { x, y };
-          event.preventDefault(); // Prevent scrolling when drawing
-        }
-      
-        // Stop drawing on mouseup, mouseout, touchend, or touchcancel
-        function stopDrawing() {
-          drawing = false;
-        }
-      
-        // Event listeners for mouse events
-        canvas.addEventListener("mousedown", startDrawing);
-        canvas.addEventListener("mousemove", draw);
-        canvas.addEventListener("mouseup", stopDrawing);
-        canvas.addEventListener("mouseout", stopDrawing);
-      
-        // Event listeners for touch events
-        canvas.addEventListener("touchstart", startDrawing);
-        canvas.addEventListener("touchmove", draw);
-        canvas.addEventListener("touchend", stopDrawing);
-        canvas.addEventListener("touchcancel", stopDrawing);
-      
-        // Clear the canvas
-        document.getElementById("clear-btn").addEventListener("click", () => {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+
+      // Responsive canvas setup
+      function resizeCanvas() {
+        const canvasContainerWidth = canvas.parentElement.clientWidth;
+        canvas.width = canvasContainerWidth;
+        canvas.height = canvasContainerWidth * (400 / 850); // Maintain aspect ratio of 850x400
+        ctx.lineWidth = 2; // Set the stroke width
+        ctx.lineJoin = "round"; // Ensure smooth strokes
+        ctx.lineCap = "round";
+      }
+
+      window.addEventListener("resize", resizeCanvas);
+      resizeCanvas(); // Call once to set initial size
+
+      // Start drawing on mousedown or touchstart
+      function startDrawing(event) {
+        drawing = true;
+        const { x, y } = getEventCoordinates(event);
+        lastPoint = { x, y }; // Store the starting point
+        ctx.strokeStyle = penColor; // Set the pen color
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        event.preventDefault(); // Prevent scrolling when drawing
+      }
+
+      // Draw using Bezier curve to create smooth lines
+      function draw(event) {
+        if (!drawing) return;
+
+        const { x, y } = getEventCoordinates(event);
+        ctx.beginPath();
+        ctx.moveTo(lastPoint.x, lastPoint.y);
+
+        // Quadratic curve for smooth drawing
+        ctx.quadraticCurveTo(
+          (lastPoint.x + x) / 2,
+          (lastPoint.y + y) / 2,
+          x,
+          y
+        );
+        ctx.stroke();
+
+        // Update last point to current
+        lastPoint = { x, y };
+        event.preventDefault(); // Prevent scrolling when drawing
+      }
+
+      // Stop drawing on mouseup, mouseout, touchend, or touchcancel
+      function stopDrawing() {
+        drawing = false;
+      }
+
+      // Event listeners for mouse events
+      canvas.addEventListener("mousedown", startDrawing);
+      canvas.addEventListener("mousemove", draw);
+      canvas.addEventListener("mouseup", stopDrawing);
+      canvas.addEventListener("mouseout", stopDrawing);
+
+      // Event listeners for touch events
+      canvas.addEventListener("touchstart", startDrawing);
+      canvas.addEventListener("touchmove", draw);
+      canvas.addEventListener("touchend", stopDrawing);
+      canvas.addEventListener("touchcancel", stopDrawing);
+
+      // Clear the canvas
+      document.getElementById("clear-btn").addEventListener("click", () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      });
+
+      // Download signature as PNG
+      document.getElementById("png-btn").addEventListener("click", () => {
+        const link = document.createElement("a");
+        link.download = "signature.png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      });
+
+      // Download signature as PDF
+      document.getElementById("pdf-btn").addEventListener("click", () => {
+        const imgData = canvas.toDataURL("image/png");
+        const { jsPDF } = window.jspdf; // Ensure jsPDF is correctly imported
+
+        const pdf = new jsPDF({
+          orientation: "landscape",
+          unit: "px",
+          format: [canvas.width, canvas.height], // Ensure proper sizing
         });
-      
-        // Download signature as PNG
-        document.getElementById("png-btn").addEventListener("click", () => {
-          const link = document.createElement("a");
-          link.download = "signature.png";
-          link.href = canvas.toDataURL("image/png");
-          link.click();
+
+        pdf.addImage(imgData, "PNG", 0, 0, canvas.width, canvas.height);
+        pdf.save("signature.pdf");
+      });
+
+      // Handle color selection and active state
+      const colorButtons = document.querySelectorAll("[data-color]");
+      colorButtons.forEach((button) => {
+        button.addEventListener("click", (e) => {
+          // Remove "active" class from all buttons
+          colorButtons.forEach((btn) => btn.classList.remove("active"));
+
+          // Add "active" class to the clicked button
+          e.target.classList.add("active");
+
+          // Update the pen color
+          penColor = e.target.getAttribute("data-color");
         });
-      
-        // Download signature as PDF
-        document.getElementById("pdf-btn").addEventListener("click", () => {
-          const imgData = canvas.toDataURL("image/png");
-          const { jsPDF } = window.jspdf; // Ensure jsPDF is correctly imported
-          
-          const pdf = new jsPDF({
-            orientation: "landscape",
-            unit: "px",
-            format: [canvas.width, canvas.height], // Ensure proper sizing
-          });
-          
-          pdf.addImage(imgData, "PNG", 0, 0, canvas.width, canvas.height);
-          pdf.save("signature.pdf");
-        });
-      
-        // Handle color selection and active state
-        const colorButtons = document.querySelectorAll("[data-color]");
-        colorButtons.forEach((button) => {
-          button.addEventListener("click", (e) => {
-            // Remove "active" class from all buttons
-            colorButtons.forEach((btn) => btn.classList.remove("active"));
-      
-            // Add "active" class to the clicked button
-            e.target.classList.add("active");
-      
-            // Update the pen color
-            penColor = e.target.getAttribute("data-color");
-          });
-        });
+      });
     </script>
 
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
 
     <!-- Include jsPDF library -->
-   </body>
+  </body>
 </html>
