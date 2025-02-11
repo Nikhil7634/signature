@@ -1,14 +1,5 @@
 # Redirect www to non-www
-RewriteEngine On
-RewriteCond %{HTTP_HOST} ^www\.signaturedownloader\.netlify\.app [NC]
-RewriteRule ^(.*)$ https://signaturedownloader.netlify.app/$1 [L,R=301]
+https://www.signaturedownloader.netlify.app/* https://signaturedownloader.netlify.app/:splat 301!
 
 # Force HTTPS
-RewriteCond %{HTTPS} off
-RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [L,R=301]
-
-# Custom 404 Page
-ErrorDocument 404 /404.html
-
-# Block bots from accessing admin files
-RewriteRule ^admin/ - [F,L]
+http://signaturedownloader.netlify.app/* https://signaturedownloader.netlify.app/:splat 301!
